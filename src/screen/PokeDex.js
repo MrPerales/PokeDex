@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, SafeAreaView } from "react-native";
-import { getPokesApi } from "../api/pokemon";
+import { getPokesApi, getPokesDetailByApi } from "../api/pokemon.js";
+
 export default function PokeDex() {
-  const { data, setData } = useState([]);
+  const [pokes, setPokes] = useState([]);
 
   useEffect(() => {
     loadPokes();
@@ -10,8 +11,29 @@ export default function PokeDex() {
 
   const loadPokes = async () => {
     try {
-      const data = await getPokesApi();
-      console.log(data);
+      const pokeResponse = await getPokesApi();
+
+      const pokesDetails = await Promise.all(
+        pokeResponse.results.map(async (poke) => {
+          const getDetails = await getPokesDetailByApi(poke.url);
+          return {
+            id: getDetails.id,
+            name: getDetails.name,
+            order: getDetails.order,
+            types: {
+              type_1: getDetails.types[0].type.name,
+              type_2: getDetails.types[1]?.type.name,
+            },
+            image: getDetails.sprites.other.home.front_default,
+          };
+        })
+      );
+      setPokes([...pokes, ...pokesDetails]);
+
+      console.log(pokes);
+      console.log(
+        "-------------------------------------------------------------"
+      );
     } catch (error) {
       console.error(error);
     }
