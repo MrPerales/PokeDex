@@ -1,9 +1,9 @@
-import { Text, View } from "react-native";
+import { Text, SafeAreaView } from "react-native";
 
 export default function Favorite() {
   return (
-    <View>
+    <SafeAreaView>
       <Text>favorites</Text>
-    </View>
+    </SafeAreaView>
   );
 }
