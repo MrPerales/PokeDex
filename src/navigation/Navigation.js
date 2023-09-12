@@ -26,6 +26,7 @@ export default function NavigationTab() {
         options={{
           title: "PokeDex",
           tabBarLabel: "",
+          headerShown:false,
           tabBarIcon: () => renderPokeBall(),
         }}
       />

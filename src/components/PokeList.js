@@ -1,9 +1,11 @@
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, FlatList, StyleSheet,SafeAreaView } from "react-native";
 import React from "react";
 import PokeCard from "./PokeCard";
 
 export default function PokeList({ pokes }) {
   return (
+    <SafeAreaView>
+
     <FlatList
       data={pokes}
       numColumns={2}
@@ -11,7 +13,8 @@ export default function PokeList({ pokes }) {
       keyExtractor={(poke) => String(poke.id)}
       renderItem={({ item }) => <PokeCard poke={item} />}
       contentContainerStyle={Style.flatListContentContainer}
-    />
+      />
+      </SafeAreaView>
   );
 }
 
